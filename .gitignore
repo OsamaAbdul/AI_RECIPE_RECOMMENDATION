@@ -1,0 +1,41 @@
+# dependencies
+/node_modules
+
+# production
+/build
+
+# dotenv environment variables
+.env
+.env.local
+.env.*.local
+
+# testing
+/coverage
+
+# misc
+.DS_Store
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# VSCode
+.vscode/
+
+# Tailwind CSS generated file (optional if you use JIT mode with safelist)
+/src/tailwind.output.css
+
+# system files
+Thumbs.db
+ehthumbs.db
+
+# IDEs and editors
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# macOS
+*.DS_Store
+
+# Windows
+*.lnk
