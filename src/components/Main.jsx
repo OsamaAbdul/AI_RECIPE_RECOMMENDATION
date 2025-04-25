@@ -189,7 +189,7 @@ export default function Main() {
               flipRecipe={() => setRecipeShown(prev => !prev)} 
               loading={loading}
             />
-            {loading && <p className="loading-pro">Crafting your recipe...</p>}
+            {loading && <p className="loading-pro">Hold your horses as Chef Osama is crafting your best and delicious recipe.... 4Secs</p>}
           </section>
         )}
       </div>
