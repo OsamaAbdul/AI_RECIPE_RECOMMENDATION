@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Section from './Section';
 import OsamaRecipe from './OsamaRecipe';
 import { getRecipeFromMistral } from '../Ai.js';
@@ -36,6 +36,32 @@ export default function Main() {
     if (!ingredient.trim()) return;
     setIngredients(prev => [...prev, ingredient.trim()]);
     setIngredient('');
+  }
+
+  // Loader Component
+  function Loader() {
+    const [messageIndex, setMessageIndex] = useState(0);
+    const messages = [
+      "Chef Osama is chopping ingredients...",
+      "Mixing flavors for a tasty dish...",
+      "Heating up the culinary magic...",
+      "Almost ready, hold your appetite!"
+    ];
+
+    useEffect(() => {
+      if (!loading) return;
+      const interval = setInterval(() => {
+        setMessageIndex(prev => (prev + 1) % messages.length);
+      }, 2000); // Change message every 2 seconds
+      return () => clearInterval(interval);
+    }, [loading]);
+
+    return (
+      <div className="loader-pro">
+        <div className="spinner"></div>
+        <p className="loader-text">{messages[messageIndex]}</p>
+      </div>
+    );
   }
 
   return (
@@ -153,12 +179,45 @@ export default function Main() {
             transform: translateX(5px);
           }
 
-          .loading-pro {
-            text-align: center;
+          /* Loader Styles */
+          .loader-pro {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+          }
+
+          .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ff8c82;
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite, pulse 2s ease-in-out infinite;
+          }
+
+          .loader-text {
             color: #ff8c82;
             font-size: 16px;
             margin-top: 15px;
             font-style: italic;
+            animation: fade 0.5s ease-in-out;
+            text-align: center;
+          }
+
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+
+          @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+          }
+
+          @keyframes fade {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
           }
         `}
       </style>
@@ -189,7 +248,7 @@ export default function Main() {
               flipRecipe={() => setRecipeShown(prev => !prev)} 
               loading={loading}
             />
-            {loading && <p className="loading-pro">Hold your horses as Chef Osama is crafting your best and delicious recipe.... 4Secs</p>}
+            {loading && <Loader />}
           </section>
         )}
       </div>
